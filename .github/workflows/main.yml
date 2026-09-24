@@ -5,20 +5,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Install Gradle 8.5 directly (no cache)
+      - name: Install Gradle 8.5 (no cache)
         run: |
           wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
           unzip -q gradle-8.5-bin.zip
           echo "$PWD/gradle-8.5/bin" >> $GITHUB_PATH
-      - name: Build Debug APK
+      - name: Build APK
         run: gradle :app:assembleDebug --stacktrace --no-daemon
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: GTV-Kumanda-APK
+          name: GTV-Kumanda-APK-HATASIZ
           path: app/build/outputs/apk/debug/*.apk
