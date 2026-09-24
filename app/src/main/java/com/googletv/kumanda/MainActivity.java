@@ -1,15 +1,73 @@
 package com.googletv.kumanda;
-import android.os.Bundle; import android.widget.*; import androidx.appcompat.app.AppCompatActivity;
-public class MainActivity extends AppCompatActivity {
-    int vol=24, ch=7;
-    protected void onCreate(Bundle b){
-        super.onCreate(b);
-        LinearLayout l=new LinearLayout(this); l.setOrientation(1); l.setPadding(40,40,40,40);
-        TextView t=new TextView(this); t.setTextSize(22); t.setText("GTV Kumanda\nSes:"+vol+" Kanal:"+ch); l.addView(t);
-        Button b1=new Button(this); b1.setText("Ses +"); b1.setOnClickListener(v->{vol++; t.setText("Ses:"+vol+" Kanal:"+ch);}); l.addView(b1);
-        Button b2=new Button(this); b2.setText("Ses -"); b2.setOnClickListener(v->{if(vol>0)vol--; t.setText("Ses:"+vol+" Kanal:"+ch);}); l.addView(b2);
-        Button b3=new Button(this); b3.setText("Kanal +"); b3.setOnClickListener(v->{ch++; t.setText("Ses:"+vol+" Kanal:"+ch);}); l.addView(b3);
-        Button b4=new Button(this); b4.setText("Kanal -"); b4.setOnClickListener(v->{if(ch>1)ch--; t.setText("Ses:"+vol+" Kanal:"+ch);}); l.addView(b4);
-        setContentView(l);
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+    int ses = 24;
+    int kanal = 7;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setPadding(50, 80, 50, 50);
+        root.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        TextView baslik = new TextView(this);
+        baslik.setTextSize(22);
+        baslik.setGravity(Gravity.CENTER);
+        baslik.setText("GTV Kumanda\n\nSes: " + ses + "  Kanal: " + kanal);
+        root.addView(baslik);
+
+        Button sesArt = new Button(this);
+        sesArt.setText("Ses +");
+        sesArt.setOnClickListener(v -> {
+            if (ses < 100) ses++;
+            baslik.setText("GTV Kumanda\n\nSes: " + ses + "  Kanal: " + kanal);
+        });
+        root.addView(sesArt);
+
+        Button sesAz = new Button(this);
+        sesAz.setText("Ses -");
+        sesAz.setOnClickListener(v -> {
+            if (ses > 0) ses--;
+            baslik.setText("GTV Kumanda\n\nSes: " + ses + "  Kanal: " + kanal);
+        });
+        root.addView(sesAz);
+
+        Button kanalArt = new Button(this);
+        kanalArt.setText("Kanal +");
+        kanalArt.setOnClickListener(v -> {
+            kanal++;
+            baslik.setText("GTV Kumanda\n\nSes: " + ses + "  Kanal: " + kanal);
+        });
+        root.addView(kanalArt);
+
+        Button kanalAz = new Button(this);
+        kanalAz.setText("Kanal -");
+        kanalAz.setOnClickListener(v -> {
+            if (kanal > 1) kanal--;
+            baslik.setText("GTV Kumanda\n\nSes: " + ses + "  Kanal: " + kanal);
+        });
+        root.addView(kanalAz);
+
+        LinearLayout tuslar = new LinearLayout(this);
+        tuslar.setOrientation(LinearLayout.HORIZONTAL);
+        tuslar.setGravity(Gravity.CENTER);
+        for (int i = 0; i <= 9; i++) {
+            Button b = new Button(this);
+            b.setText(String.valueOf(i));
+            tuslar.addView(b);
+        }
+        root.addView(tuslar);
+
+        setContentView(root);
     }
 }
